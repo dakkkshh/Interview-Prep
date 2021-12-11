@@ -20,7 +20,25 @@ int minCoinChangeTD(int coins[],int money,int dp[],int coinSize){
     return dp[money]=ans;
 }
 int minCoinChangeBU(int coins[],int money,int coinSize){
-    
+    int dp[money+10]={0};
+    int ans = INT_MAX;
+    //Min and Max functions are not good for large input
+    //interate over all the numbers from 1 to money
+    //Not checking dp[0] since it will be 0
+    for(int i=1;i<=money;i++){
+        dp[i]=INT_MAX;
+        //Iterate over coins array
+        for(int j=0;j<coinSize;j++){
+            if(i-coins[j]>=0){
+                int subProblemAnswer = dp[i-coins[j]];
+                dp[i]=min(dp[i],subProblemAnswer+1);
+                // cout<<"NowAnser is :"<<dp[i]<<endl;
+            }
+        }
+    }
+    return dp[money];
+//     49 3
+// 3 7 4
 }
 int main()
 {
@@ -31,6 +49,7 @@ int main()
         cin>>coins[i];
         dp[coins[i]]=1;
     }
-    cout<<minCoinChangeTD(coins,money,dp,n);
+    // cout<<minCoinChangeTD(coins,money,dp,n);
+    cout<<minCoinChangeBU(coins,money,n);
     return 0;
 }
